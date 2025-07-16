@@ -3,6 +3,7 @@ import { Product } from "./Product";
 
 export class Monitor extends Product {
     private _screenSize: number;
+    public type: string = "Desktop";
 
     constructor(id: number, name: string, price: number, screenSize: number) {
         super(id, name, price,);

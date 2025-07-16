@@ -12,6 +12,8 @@ export abstract class Product {
         this._price = price;
     }
 
+    abstract type: string;
+
     public get id(): number {
         return this._id;
     }
@@ -33,4 +35,5 @@ export abstract class Product {
     }
 
     abstract showProductDetails(): void;
+
 }

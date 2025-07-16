@@ -9,6 +9,8 @@ export class Desktop extends Product {
 
     private _brand: string;
 
+    public type: string = "Desktop";
+
     constructor(id: number, name: string, price: number, processor: string, ram: string, brand: string,) {
         super(id, name, price,);
         this._processor = processor;
