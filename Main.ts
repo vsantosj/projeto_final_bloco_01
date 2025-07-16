@@ -1,33 +1,20 @@
-
+import readlineSync from "readline-sync";
+import { ProductController } from "./src/controller/ProductController";
 import { Desktop } from "./src/models/Desktop";
 import { Menu } from "./src/models/Menu";
 import { Monitor } from "./src/models/Monitor";
-import { Product } from "./src/models/Product";
 
 
 
-let option: number;
+
+let products: ProductController = new ProductController();
+let ram, brand, processor: string;
+
+let screenSize, type, option: number;
+
+const productType = ["Desktop", "Monitor"];
+
 const menu: Menu = new Menu();
-
-const desktop = new Desktop(
-    1,
-    "Notebook Dell Inspiron",
-    4500.00,
-    "Intel Core i5",
-    "8GB",
-    "Dell"
-
-);
-
-const monitor = new Monitor(2, "monitor Dell", 2000, 20);
-
-const listProduct: Product[] = [];
-
-listProduct.push(desktop);
-
-listProduct.push(monitor);
-
-
 
 do {
 
@@ -36,14 +23,48 @@ do {
     switch (option) {
         case 1:
             console.log("\n==== Adicionar Produto ====");
-            desktop.showProductDetails();
-            break;
+
+            const name = readlineSync.question("Nome do produto: ");
+            const price = readlineSync.questionFloat("Preço: R$ ");
+
+            console.log("\n Digite o tipo de produto");
+            type = readlineSync.keyInSelect(productType, "", { cancel: false }) + 1;
+            switch (type) {
+                case 1:
+                    console.log("\n=== Criar Desktop ===");
+                    processor = readlineSync.question("Processador: ");
+                    ram = readlineSync.question("Memória RAM: ");
+                    brand = readlineSync.question("Marca: ");
+
+                    const desktop = new Desktop(
+                        products.generateId(),
+                        name,
+                        price,
+                        processor,
+                        ram,
+                        brand);
+                    console.log("Produto Desktop criado com sucesso!");
+
+                    break;
+                case 2:
+                    console.log("\n=== Criar Monitor ===");
+                    screenSize = readlineSync.questionInt("Tamanho da Tela: ");
+
+                    const monitor = new Monitor(
+                        products.generateId(),
+                        name,
+                        price,
+                        screenSize
+                    );
+                    console.log("Produto Monitor criado com sucesso!");
+                    break;
+
+            }
         case 2:
             console.log("\n==== Lista de Todos os Produtos ====");
-            listProduct.forEach(produto => {
-                produto.showProductDetails();
-                console.log("\n");
-            });
+
+            products.listAllProducts();
+            
             break;
         case 3:
             console.log("\n==== Buscar Produto por ID ====");
@@ -67,4 +88,8 @@ do {
     }
 
 } while (option !== 0);
+
+
+
+
 
